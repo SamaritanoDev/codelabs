@@ -1,0 +1,25 @@
+name: appfirstweb
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 0.0.1+1
+
+environment:
+  sdk: '>=2.19.0 <3.0.0'
+
+dependencies:
+  english_words: ^4.0.0
+  flutter:
+    sdk: flutter
+  provider: ^6.0.5
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
