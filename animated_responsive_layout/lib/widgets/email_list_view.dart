@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../models/data.dart' as data;
 import '../models/models.dart';
 import 'email_widget.dart';
-import 'search_bar.dart';
 
 class EmailListView extends StatelessWidget {
   const EmailListView({
