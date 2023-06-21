@@ -1,4 +1,6 @@
+import 'package:cupertino_store/src/config/theme/theme_bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'ui/widgets/product_list_tab.dart';
@@ -6,21 +8,35 @@ import 'ui/widgets/search_tab.dart';
 import 'ui/widgets/shopping_cart_tab.dart';
 
 class CupertinoStoreApp extends StatelessWidget {
-  const CupertinoStoreApp({super.key});
+  final themeBloc = ThemeBloc();
+  CupertinoStoreApp({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-    return const CupertinoApp(
-      theme: CupertinoThemeData(brightness: Brightness.light),
-      home: CupertinoStoreHomePage(),
+    return StreamBuilder<ThemeMode>(
+      stream: themeBloc.themeStream,
+      initialData: themeBloc.currentTheme,
+      builder: (context, snapshot) {
+        final currentTheme = snapshot.data;
+        return CupertinoApp(
+          theme: currentTheme == ThemeMode.light
+              ? const CupertinoThemeData(brightness: Brightness.light)
+              : const CupertinoThemeData(brightness: Brightness.dark),
+          home: CupertinoStoreHomePage(isDarkMode: currentTheme == ThemeMode.dark),
+        );
+      },
     );
   }
 }
 
 class CupertinoStoreHomePage extends StatelessWidget {
-  const CupertinoStoreHomePage({super.key});
+  final bool isDarkMode;
+
+  const CupertinoStoreHomePage({super.key, required this.isDarkMode});
 
   @override
   Widget build(BuildContext context) {
@@ -42,24 +58,28 @@ class CupertinoStoreHomePage extends StatelessWidget {
         ],
       ),
       tabBuilder: (context, index) {
-        return switch (index) {
-          0 => CupertinoTabView(
+        switch (index) {
+          case 0:
+            return CupertinoTabView(
               builder: (context) => const CupertinoPageScaffold(
                 child: ProductListTab(),
               ),
-            ),
-          1 => CupertinoTabView(
+            );
+          case 1:
+            return CupertinoTabView(
               builder: (context) => const CupertinoPageScaffold(
                 child: SearchTab(),
               ),
-            ),
-          2 => CupertinoTabView(
+            );
+          case 2:
+            return CupertinoTabView(
               builder: (context) => const CupertinoPageScaffold(
                 child: ShoppingCartTab(),
               ),
-            ),
-          _ => throw Exception('Invalid index $index'),
-        };
+            );
+          default:
+            throw Exception('Invalid index $index');
+        }
       },
     );
   }

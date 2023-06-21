@@ -1,5 +1,7 @@
+import 'package:cupertino_store/src/config/theme/theme_bloc.dart';
 import 'package:cupertino_store/src/models/app_state_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'product_row_item.dart';
@@ -12,11 +14,17 @@ class ProductListTab extends StatelessWidget {
     return Consumer<AppStateModel>(
       builder: (context, model, child) {
         final products = model.getProducts();
+        final themeBloc = ThemeBloc();
         return CustomScrollView(
           semanticChildCount: products.length,
           slivers: <Widget>[
-            const CupertinoSliverNavigationBar(
-              largeTitle: Text('Cupertino Store'),
+            CupertinoSliverNavigationBar(
+              largeTitle: const Text('Cupertino Store'),
+              trailing: CupertinoButton(
+                  child: const Icon(Icons.brightness_4),
+                  onPressed: () {
+                    themeBloc.toggleTheme();
+                  }),
             ),
             SliverSafeArea(
                 top: false,

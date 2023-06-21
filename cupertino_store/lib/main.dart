@@ -8,7 +8,7 @@ void main() {
   return runApp(
     ChangeNotifierProvider<AppStateModel>(
       create: (_) => AppStateModel()..loadProducts(), // NEW
-      child: const CupertinoStoreApp(), // NEW
+      child: CupertinoStoreApp(), // NEW
     ),
   );
 }
